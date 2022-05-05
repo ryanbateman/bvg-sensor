@@ -1,0 +1,11 @@
+{
+  "domain": "bvg",
+  "name": "Berliner Verkehrsbetriebe (Berlin Public Transport)",
+  "documentation": "https://github.com/ryanbateman/bvg_hacs",
+  "issue_tracker": "https://github.com/ryanbateman/bvg_hacs/issues",
+  "dependencies": [],
+  "codeowners": ["@ryanbateman"],
+  "requirements": [],
+  "version": "0.0.1",
+  "iot_class": "cloud_polling"
+}
