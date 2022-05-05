@@ -2,7 +2,6 @@
   "config": {
     "step": {
       "user": {
-        "title": "BVG (Berlin Public Transport)",
         "description": "Hvis du trenger hjep til konfigurasjon ta en titt her: https://github.com/ryanbateman/bvg-berlin-public-transport",
         "data": {
           "username": "Brukernavn",
