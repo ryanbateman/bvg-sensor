@@ -1,82 +1,96 @@
-# BVG Sensor Component for Home Assistant
+# BVG (Berlin Public Transport)
 
-The BVG Sensor can be used to display real-time public transport data for the city of Berlin within the BVG (Berliner Verkehrsbetriebe) route network. 
-The sensor will display the minutes until the next departure for the configured station and direction. The provided data is in real-time and does include actual delays. If you want to customize the sensor you can use the provided sensor attributes. You can also define a walking distance from your home/work, so only departures that are reachable will be shown. 
+[![GitHub Release][releases-shield]][releases]
+[![GitHub Activity][commits-shield]][commits]
+[![License][license-shield]](LICENSE)
 
-During testing I found that the API frequently becomes unavailable, possibly to keep the amount of requests low. Therefore this component keeps a local copy of the data (90 minutes). The local data is only beeing used while "offline" and is beeing refreshed when the API endpoint becomes available again. 
+[![pre-commit][pre-commit-shield]][pre-commit]
+[![Black][black-shield]][black]
 
-You can check the status of the API Endpoint here: https://status.transport.rest/781627008
+[![hacs][hacsbadge]][hacs]
+[![Project Maintenance][maintenance-shield]][user_profile]
+[![BuyMeCoffee][buymecoffeebadge]][buymecoffee]
 
-This component uses the API endpoint that provides data from the BVG HAFAS API by [Jannis Redmann](https://github.com/derhuerst/).
-Without his fantastic work, this component would not possible!
+[![Discord][discord-shield]][discord]
+[![Community Forum][forum-shield]][forum]
 
-# Installation
+**TO BE REMOVED: If you need help, as a developer, to use this custom component tempalte,
+please look at the [User Guide in the Cookiecutter documentation](https://cookiecutter-homeassistant-custom-component.readthedocs.io/en/stable/quickstart.html)**
 
-If you are using HomeAssitant Version 0.89 and beyond, simply copy the file bvgsensor.py into your ``/config/custom_components/bvgsensor/`` folder and rename it to ``sensor.py``. If it does not already exist, create the missing folders.
+**This component will set up the following platforms.**
 
-**Only valid for HomeAssistant Version lower than 0.89 as there were some breaking changes on how custom components will integrate with HomeAssistant from Version 0.89 and beyond...**
+| Platform        | Description                                                               |
+| --------------- | ------------------------------------------------------------------------- |
+| `binary_sensor` | Show something `True` or `False`.                                         |
+| `sensor`        | Show info from BVG (Berlin Public Transport) API. |
+| `switch`        | Switch something `True` or `False`.                                       |
 
-Simply copy the file bvgsensor.py into your ``/config/custom_components/sensor/`` folder. If it does not already exist, create the missing folders.
+![example][exampleimg]
 
-# Prerequisites
+## Installation
 
-You will need to specify at least a ``stop_id`` and a ``direction`` for the connection you would like to display.
+1. Using the tool of choice open the directory (folder) for your HA configuration (where you find `configuration.yaml`).
+2. If you do not have a `custom_components` directory (folder) there, you need to create it.
+3. In the `custom_components` directory (folder) create a new folder called `bvg_berlin_public_transport`.
+4. Download _all_ the files from the `custom_components/bvg_berlin_public_transport/` directory (folder) in this repository.
+5. Place the files you downloaded in the new directory (folder) you created.
+6. Restart Home Assistant
+7. In the HA UI go to "Configuration" -> "Integrations" click "+" and search for "BVG (Berlin Public Transport)"
 
-To find your ``stop_id`` use the following link: https://1.bvg.transport.rest/stations/nearby?latitude=52.52725&longitude=13.4123 and replace the values for ```latitude=``` and ```longitude=``` with your coordinates. You can get those e.g. from Google Maps.
-Find your `stop_id` within the json repsonse in your browser. 
+Using your HA configuration directory (folder) as a starting point you should now also have this:
 
-### Example:
-You want to display the departure times from "U Rosa-Luxemburg-Platz" in direction to "Pankow"
-
-#### get the stop_id:
-
-Link: https://1.bvg.transport.rest/stations/nearby?latitude=52.52725&longitude=13.4123
-
-``
-
-{"type":"stop","id":"900000100016","name":"U Rosa-Luxemburg-Platz","location":{"type":"location","latitude":52.528187,"longitude":13.410405},"products":{"suburban":false,"subway":true,"tram":true,"bus":true,"ferry":false,"express":false,"regional":false},"distance":165}
-
-``
-
-Your ``stop_id`` for ``"U Rosa-Luxemburg-Platz"`` would be ``"900000100016"``
-
-#### get the direction:
-
-Specify the final destination (must be a valid station name) for the connection you want to display. In this example this would be ``Pankow``. If your route is beeing served by multiple lines with different directions, you can define multiple destinations in your config.
-
-```yaml
-# Example configuration.yaml entry
-- platform: bvgsensor
-    stop_id: your stop id
-    direction: 
-      - "destionation 1"
-      - "destination 2"
-````
-
-# Configuration
-
-To add the BVG Sensor Component to Home Assistant, add the following to your configuration.yaml file:
-
-```yaml
-# Example configuration.yaml entry
-- platform: bvgsensor
-    stop_id: your stop id
-    direction: the final destination for your connection
-````
-
-- **stop_id** *(Required)*: The stop_id for your station.
-- **direction** *(Required)*: One or more destinations for your route.
-- **name** *(optional)*: Name your sensor, especially if you create multiple instance of the sensor give them different names. * (Default=BVG)*
-- **walking_distance** *(optional)*: specify the walking distance in minutes from your home/location to the station. Only connections that are reachable in a timley manner will be shown. Set it to ``0`` if you want to disable this feature. *(Default=10)*
-- **file_path** *(optional)*: path where you want your station specific data to be saved. *(Default= your home assistant config directory e.g. "conf/" )*
-
-### Example Configuration:
-```yaml
-sensor:
-  - platform: bvgsensor
-    name: U2 Rosa-Luxemburg-Platz
-    stop_id: "900000100016"
-    direction: "Pankow"
-    walking_distance: 5
-    file_path: "/tmp/"
+```text
+custom_components/bvg_berlin_public_transport/translations/en.json
+custom_components/bvg_berlin_public_transport/translations/fr.json
+custom_components/bvg_berlin_public_transport/translations/nb.json
+custom_components/bvg_berlin_public_transport/translations/sensor.en.json
+custom_components/bvg_berlin_public_transport/translations/sensor.fr.json
+custom_components/bvg_berlin_public_transport/translations/sensor.nb.json
+custom_components/bvg_berlin_public_transport/translations/sensor.nb.json
+custom_components/bvg_berlin_public_transport/__init__.py
+custom_components/bvg_berlin_public_transport/api.py
+custom_components/bvg_berlin_public_transport/binary_sensor.py
+custom_components/bvg_berlin_public_transport/config_flow.py
+custom_components/bvg_berlin_public_transport/const.py
+custom_components/bvg_berlin_public_transport/manifest.json
+custom_components/bvg_berlin_public_transport/sensor.py
+custom_components/bvg_berlin_public_transport/switch.py
 ```
+
+## Configuration is done in the UI
+
+<!---->
+
+## Contributions are welcome!
+
+If you want to contribute to this please read the [Contribution guidelines](CONTRIBUTING.md)
+
+## Credits
+
+This project was generated from [@oncleben31](https://github.com/oncleben31)'s [Home Assistant Custom Component Cookiecutter](https://github.com/oncleben31/cookiecutter-homeassistant-custom-component) template.
+
+Code template was mainly taken from [@Ludeeus](https://github.com/ludeeus)'s [integration_blueprint][integration_blueprint] template
+
+---
+
+[integration_blueprint]: https://github.com/custom-components/integration_blueprint
+[black]: https://github.com/psf/black
+[black-shield]: https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge
+[buymecoffee]: https://www.buymeacoffee.com/ryanbateman
+[buymecoffeebadge]: https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg?style=for-the-badge
+[commits-shield]: https://img.shields.io/github/commit-activity/y/ryanbateman/bvg-berlin-public-transport.svg?style=for-the-badge
+[commits]: https://github.com/ryanbateman/bvg-berlin-public-transport/commits/main
+[hacs]: https://hacs.xyz
+[hacsbadge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge
+[discord]: https://discord.gg/Qa5fW2R
+[discord-shield]: https://img.shields.io/discord/330944238910963714.svg?style=for-the-badge
+[exampleimg]: example.png
+[forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg?style=for-the-badge
+[forum]: https://community.home-assistant.io/
+[license-shield]: https://img.shields.io/github/license/ryanbateman/bvg-berlin-public-transport.svg?style=for-the-badge
+[maintenance-shield]: https://img.shields.io/badge/maintainer-%40ryanbateman-blue.svg?style=for-the-badge
+[pre-commit]: https://github.com/pre-commit/pre-commit
+[pre-commit-shield]: https://img.shields.io/badge/pre--commit-enabled-brightgreen?style=for-the-badge
+[releases-shield]: https://img.shields.io/github/release/ryanbateman/bvg-berlin-public-transport.svg?style=for-the-badge
+[releases]: https://github.com/ryanbateman/bvg-berlin-public-transport/releases
+[user_profile]: https://github.com/ryanbateman
