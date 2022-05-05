@@ -31,8 +31,8 @@ please look at the [User Guide in the Cookiecutter documentation](https://cookie
 
 1. Using the tool of choice open the directory (folder) for your HA configuration (where you find `configuration.yaml`).
 2. If you do not have a `custom_components` directory (folder) there, you need to create it.
-3. In the `custom_components` directory (folder) create a new folder called `bvg_berlin_public_transport`.
-4. Download _all_ the files from the `custom_components/bvg_berlin_public_transport/` directory (folder) in this repository.
+3. In the `custom_components` directory (folder) create a new folder called `bvg_hacs`.
+4. Download _all_ the files from the `custom_components/bvg_hacs/` directory (folder) in this repository.
 5. Place the files you downloaded in the new directory (folder) you created.
 6. Restart Home Assistant
 7. In the HA UI go to "Configuration" -> "Integrations" click "+" and search for "BVG (Berlin Public Transport)"
@@ -40,21 +40,21 @@ please look at the [User Guide in the Cookiecutter documentation](https://cookie
 Using your HA configuration directory (folder) as a starting point you should now also have this:
 
 ```text
-custom_components/bvg_berlin_public_transport/translations/en.json
-custom_components/bvg_berlin_public_transport/translations/fr.json
-custom_components/bvg_berlin_public_transport/translations/nb.json
-custom_components/bvg_berlin_public_transport/translations/sensor.en.json
-custom_components/bvg_berlin_public_transport/translations/sensor.fr.json
-custom_components/bvg_berlin_public_transport/translations/sensor.nb.json
-custom_components/bvg_berlin_public_transport/translations/sensor.nb.json
-custom_components/bvg_berlin_public_transport/__init__.py
-custom_components/bvg_berlin_public_transport/api.py
-custom_components/bvg_berlin_public_transport/binary_sensor.py
-custom_components/bvg_berlin_public_transport/config_flow.py
-custom_components/bvg_berlin_public_transport/const.py
-custom_components/bvg_berlin_public_transport/manifest.json
-custom_components/bvg_berlin_public_transport/sensor.py
-custom_components/bvg_berlin_public_transport/switch.py
+custom_components/bvg_hacs/translations/en.json
+custom_components/bvg_hacs/translations/fr.json
+custom_components/bvg_hacs/translations/nb.json
+custom_components/bvg_hacs/translations/sensor.en.json
+custom_components/bvg_hacs/translations/sensor.fr.json
+custom_components/bvg_hacs/translations/sensor.nb.json
+custom_components/bvg_hacs/translations/sensor.nb.json
+custom_components/bvg_hacs/__init__.py
+custom_components/bvg_hacs/api.py
+custom_components/bvg_hacs/binary_sensor.py
+custom_components/bvg_hacs/config_flow.py
+custom_components/bvg_hacs/const.py
+custom_components/bvg_hacs/manifest.json
+custom_components/bvg_hacs/sensor.py
+custom_components/bvg_hacs/switch.py
 ```
 
 ## Configuration is done in the UI

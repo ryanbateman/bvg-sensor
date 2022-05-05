@@ -2,7 +2,7 @@
 Custom integration to integrate BVG (Berlin Public Transport) with Home Assistant.
 
 For more details about this integration, please refer to
-https://github.com/ryanbateman/bvg-berlin-public-transport
+https://github.com/ryanbateman/bvg_hacs
 """
 import asyncio
 import logging

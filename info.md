@@ -6,9 +6,6 @@
 [![Project Maintenance][maintenance-shield]][user_profile]
 [![BuyMeCoffee][buymecoffeebadge]][buymecoffee]
 
-[![Discord][discord-shield]][discord]
-[![Community Forum][forum-shield]][forum]
-
 **This component will set up the following platforms.**
 
 | Platform        | Description                         |
@@ -43,8 +40,8 @@ Code template was mainly taken from [@Ludeeus](https://github.com/ludeeus)'s [in
 [integration_blueprint]: https://github.com/custom-components/integration_blueprint
 [buymecoffee]: https://www.buymeacoffee.com/ludeeus
 [buymecoffeebadge]: https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg?style=for-the-badge
-[commits-shield]: https://img.shields.io/github/commit-activity/y/ryanbateman/bvg-berlin-public-transport.svg?style=for-the-badge
-[commits]: https://github.com/ryanbateman/bvg-berlin-public-transport/commits/main
+[commits-shield]: https://img.shields.io/github/commit-activity/y/ryanbateman/bvg_hacs.svg?style=for-the-badge
+[commits]: https://github.com/ryanbateman/bvg_hacs/commits/main
 [hacs]: https://hacs.xyz
 [hacsbadge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge
 [discord]: https://discord.gg/Qa5fW2R
@@ -52,9 +49,9 @@ Code template was mainly taken from [@Ludeeus](https://github.com/ludeeus)'s [in
 [exampleimg]: example.png
 [forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg?style=for-the-badge
 [forum]: https://community.home-assistant.io/
-[license]: https://github.com/ryanbateman/bvg-berlin-public-transport/blob/main/LICENSE
-[license-shield]: https://img.shields.io/github/license/ryanbateman/bvg-berlin-public-transport.svg?style=for-the-badge
+[license]: https://github.com/ryanbateman/bvg_hacs/blob/main/LICENSE
+[license-shield]: https://img.shields.io/github/license/ryanbateman/bvg_hacs.svg?style=for-the-badge
 [maintenance-shield]: https://img.shields.io/badge/maintainer-%40ryanbateman-blue.svg?style=for-the-badge
-[releases-shield]: https://img.shields.io/github/release/ryanbateman/bvg-berlin-public-transport.svg?style=for-the-badge
-[releases]: https://github.com/ryanbateman/bvg-berlin-public-transport/releases
+[releases-shield]: https://img.shields.io/github/release/ryanbateman/bvg_hacs.svg?style=for-the-badge
+[releases]: https://github.com/ryanbateman/bvg_hacs/releases
 [user_profile]: https://github.com/ryanbateman
