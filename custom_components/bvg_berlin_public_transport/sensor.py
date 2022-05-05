@@ -99,8 +99,6 @@ class Bvgsensor(Entity):
         self.url = "https://v5.bvg.transport.rest/stops/{}/departures?duration={}".format(self._stop_id, self._cache_size)
         self.data = None
         self.singleConnection = None
-        self.file_path = self.hass_config.get("config_dir") + file_path
-        self.file_name = "bvg_{}.json".format(stop_id)
         self._con_state = {CONNECTION_STATE: CON_STATE_ONLINE}
 
     @property
@@ -150,7 +148,6 @@ class Bvgsensor(Entity):
 
     def update(self):
         """Fetch new state data for the sensor.
-
         This is the only method that should fetch new data for Home Assistant.
         """
         self.fetchDataFromURL
@@ -158,7 +155,7 @@ class Bvgsensor(Entity):
         if self.singleConnection is not None and len(self.singleConnection) > 0:
             self._state = self.singleConnection.get(ATTR_DUE_IN)
         else:
-            self._state = 'n/a'
+            self._state = None
 
 # only custom code beyond this line
     @property
@@ -170,30 +167,13 @@ class Bvgsensor(Entity):
                 if self._con_state.get(CONNECTION_STATE) is CON_STATE_OFFLINE:
                     _LOGGER.warning("Connection to BVG API re-established")
                     self._con_state.update({CONNECTION_STATE: CON_STATE_ONLINE})
-                # write the response to a file for caching if connection is not available, which seems to happen from time to time
-                try:
-                    with open("{}{}".format(self.file_path, self.file_name), 'w') as fd:
-                        # self.data = json.load(fd)
-                        json.dump(self.data, fd, ensure_ascii=False)
-                        # json.writes(response)
-                        self._cache_creation_date = datetime.now(pytz.timezone(self._timezone))
-                except IOError as e:
-                    _LOGGER.error("Could not write file. Please check your configuration and read/write access for path:{}".format(self.file_path))
-                    _LOGGER.error("I/O error({}): {}".format(e.errno, e.strerror))
+                    self._state = None
         except URLError as e:
             if self._con_state.get(CONNECTION_STATE) is CON_STATE_ONLINE:
                 _LOGGER.debug(e)
                 _LOGGER.warning("Connection to BVG API lost, using local cache instead")
                 self._con_state.update({CONNECTION_STATE: CON_STATE_OFFLINE})
-            self.fetchDataFromFile()
-
-    def fetchDataFromFile(self):
-        try:
-            with open("{}{}".format(self.file_path, self.file_name), 'r') as fd:
-                self.data = json.load(fd)
-        except IOError as e:
-            _LOGGER.error("Could not read file. Please check your configuration and read/write access for path: {}".format(self.file_path))
-            _LOGGER.error("I/O error({}): {}".format(e.errno, e.strerror))
+            self._state = None
 
     def getSingleConnection(self, direction, min_due_in, nmbr):
         timetable_l = list()
@@ -230,26 +210,6 @@ class Bvgsensor(Entity):
                 _LOGGER.debug("Connection: {}".format(timetable_l))
                 return(timetable_l[int(nmbr)])
             except IndexError as e:
-                if self.isCacheValid():
-                    _LOGGER.warning("No valid connection found for sensor named {}. Please check your configuration.".format(self.name))
-                    self._isCacheValid = True
-                else:
-                    if self._isCacheValid:
-                        _LOGGER.warning("Cache is outdated.")
-                    self._isCacheValid = False
-                    # _LOGGER.error(e)
                 return None
 
-    def isCacheValid(self):
-        date_now = datetime.now(pytz.timezone(self.hass_config.get("time_zone")))
-        # If the component is starting without internet connection
-        if self._cache_creation_date is None:
-            self._cache_creation_date = datetime.fromtimestamp(os.path.getmtime("{}{}".format(self.file_path, self.file_name)), pytz.timezone(self._timezone))
-        td = self._cache_creation_date - date_now
-        td = td.seconds
-        _LOGGER.debug("td is: {}".format(td))
-        if td > (self._cache_size * 60):
-            _LOGGER.debug("Cache Age (not valid): {}".format(td // 60))
-            return False
-        else:
-            return True
+    
