@@ -215,7 +215,7 @@ class Bvgsensor(Entity):
                         if departure_td >= min_due_in:
                             timetable_l.append({ATTR_DESTINATION: pos['direction'], ATTR_REAL_TIME: dep_time,
                                                 ATTR_DUE_IN: departure_td, ATTR_DELAY: delay,
-                                                ATTR_TRIP_ID: pos['trip'], ATTR_STOP_NAME: pos['stop']['name'],
+                                                ATTR_TRIP_ID: pos['tripId'], ATTR_STOP_NAME: pos['stop']['name'],
                                                 ATTR_TRANS_TYPE: pos['line']['product'], ATTR_LINE_NAME: pos['line']['name']
                                                 })
                             _LOGGER.debug("Connection found")
