@@ -205,7 +205,7 @@ class Bvgsensor(Entity):
                 if dest in pos['direction']:
                     if pos['when'] is None:
                         continue
-                    dep_time = datetime.strptime(pos['when'][:-6], "%Y-%m-%dT%H:%M:%S.%f")
+                    dep_time = datetime.strptime(pos['when'][:-6], "%Y-%m-%dT%H:%M:%S")
                     dep_time = pytz.timezone('Europe/Berlin').localize(dep_time)
                     delay = (pos['delay'] // 60) if pos['delay'] is not None else 0
                     departure_td = dep_time - date_now
