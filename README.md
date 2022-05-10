@@ -10,9 +10,11 @@
 
 ## Overview
 
-This is an integration for [Home Assistant](https://www.home-assistant.io/) (a tool for managing and viewing your 'smart' devices at home). This integration adds the ability to track the next departure times for bus and trains stops on Berlin Public Transport. It is an extension of work by [@tobias-richter](tobias-richter) and [@fluffykraken](https://github.com/fluffykraken). 
+This is an integration for [Home Assistant](https://www.home-assistant.io/) (a tool for managing and viewing your 'smart' devices at home). This integration adds the ability to track the next departure times for bus and trains stops on Berlin Public Transport.  
 
-## Installation
+It is an extension of work by [@tobias-richter](tobias-richter) and [@fluffykraken](https://github.com/fluffykraken), forked to be made HACS ready and to pick up (seemingly abandoned) code.  
+
+## Manual Installation
 
 1. Using the tool of choice open the directory (folder) for your HA configuration (where you find `configuration.yaml`).
 2. If you do not have a `custom_components` directory (folder) there, you need to create it.
@@ -22,39 +24,20 @@ This is an integration for [Home Assistant](https://www.home-assistant.io/) (a t
 6. Restart Home Assistant
 7. In the HA UI go to "Configuration" -> "Integrations" click "+" and search for "BVG (Berlin Public Transport)"
 
-Using your HA configuration directory (folder) as a starting point you should now also have this:
-
-```text
-custom_components/bvg_hacs/translations/en.json
-custom_components/bvg_hacs/translations/fr.json
-custom_components/bvg_hacs/translations/nb.json
-custom_components/bvg_hacs/translations/sensor.en.json
-custom_components/bvg_hacs/translations/sensor.fr.json
-custom_components/bvg_hacs/translations/sensor.nb.json
-custom_components/bvg_hacs/translations/sensor.nb.json
-custom_components/bvg_hacs/__init__.py
-custom_components/bvg_hacs/api.py
-custom_components/bvg_hacs/binary_sensor.py
-custom_components/bvg_hacs/config_flow.py
-custom_components/bvg_hacs/const.py
-custom_components/bvg_hacs/manifest.json
-custom_components/bvg_hacs/sensor.py
-custom_components/bvg_hacs/switch.py
-```
 
 ## Configuration is done in the UI
 
 <!---->
 
-## Contributions are welcome!
-
-If you want to contribute to this please read the [Contribution guidelines](CONTRIBUTING.md)
-
 ## Credits
+
+Core sensor code was written by It is an extension of work by [@fluffykraken](https://github.com/fluffykraken) and updated by [@tobias-richter](tobias-richter). 
 
 This project was generated from [@oncleben31](https://github.com/oncleben31)'s [Home Assistant Custom Component Cookiecutter](https://github.com/oncleben31/cookiecutter-homeassistant-custom-component) template.
 
-Code template was mainly taken from [@Ludeeus](https://github.com/ludeeus)'s [integration_blueprint][integration_blueprint] template
+Code template was mainly taken from [@Ludeeus](https://github.com/ludeeus)'s [integration_blueprint][integration_blueprint] template.
+
+
 
 ---
 
