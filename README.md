@@ -7,18 +7,10 @@
 [![Project Maintenance][maintenance-shield]][user_profile]
 [![BuyMeCoffee][buymecoffeebadge]][buymecoffee]
 
-**TO BE REMOVED: If you need help, as a developer, to use this custom component tempalte,
-please look at the [User Guide in the Cookiecutter documentation](https://cookiecutter-homeassistant-custom-component.readthedocs.io/en/stable/quickstart.html)**
 
-**This component will set up the following platforms.**
+## Overview
 
-| Platform        | Description                                                               |
-| --------------- | ------------------------------------------------------------------------- |
-| `binary_sensor` | Show something `True` or `False`.                                         |
-| `sensor`        | Show info from BVG (Berlin Public Transport) API. |
-| `switch`        | Switch something `True` or `False`.                                       |
-
-![example][exampleimg]
+This is an integration for [Home Assistant](https://www.home-assistant.io/) (a tool for managing and viewing your 'smart' devices at home). This integration adds the ability to track the next departure times for bus and trains stops on Berlin Public Transport. It is an extension of work by [@tobias-richter](tobias-richter) and [@fluffykraken](https://github.com/fluffykraken). 
 
 ## Installation
 
