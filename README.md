@@ -31,7 +31,7 @@ It is an extension of work by [@tobias-richter](https://github.com/tobias-richte
 5. Place the files you downloaded in the new directory (folder) you created.
 6. Restart Home Assistant
 
-# Configuration
+# Prequisites
 
 You will need to specify at least a ``stop_id`` and a ``direction`` for the connection you would like to display.
 
