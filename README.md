@@ -4,7 +4,7 @@
 [![License][license-shield]](LICENSE)
 
 [![hacs][hacsbadge]][hacs]
-[![Project Maintenance][maintenance-shield]][user_profile]
+[![Project Maintenance][maintenance-shield]][user_profile]  
 [![BuyMeCoffee][buymecoffeebadge]][buymecoffee]
 
 
