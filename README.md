@@ -46,9 +46,7 @@ You want to display the departure times from "U Rosa-Luxemburg-Platz" in directi
 Link: https://1.bvg.transport.rest/stations/nearby?latitude=52.52725&longitude=13.4123
 
 ``
-
 {"type":"stop","id":"900000100016","name":"U Rosa-Luxemburg-Platz","location":{"type":"location","latitude":52.528187,"longitude":13.410405},"products":{"suburban":false,"subway":true,"tram":true,"bus":true,"ferry":false,"express":false,"regional":false},"distance":165}
-
 ``
 
 Your ``stop_id`` for ``"U Rosa-Luxemburg-Platz"`` would be ``"900000100016"``
