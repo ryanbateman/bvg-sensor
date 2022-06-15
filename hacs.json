@@ -1,6 +1,6 @@
 {
   "name": "BVG (Berlin Public Transport)",
   "hacs": "1.6.0",
-  "country": ["DE"]
+  "country": ["DE"],
   "homeassistant": "0.118.0"
 }
