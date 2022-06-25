@@ -57,7 +57,7 @@ Specify the final destination (must be a valid station name) for the connection 
 
 ```yaml
 # Example configuration.yaml entry
-- platform: bvgsensor
+- platform: bvg_berlin_public_transport
     stop_id: your stop id
     direction: 
       - "destionation 1"
@@ -70,7 +70,7 @@ To add the BVG Sensor Component to Home Assistant, add the following to your `co
 
 ```yaml
 # Example configuration.yaml entry
-- platform: bvgsensor
+- platform: bvg_berlin_public_transport
     stop_id: your stop id
     direction: the final destination for your connection
 ````
@@ -84,7 +84,7 @@ To add the BVG Sensor Component to Home Assistant, add the following to your `co
 ### Example Configuration:
 ```yaml
 sensor:
-  - platform: bvgsensor
+  - platform: bvg_berlin_public_transport
     name: U2 Rosa-Luxemburg-Platz
     stop_id: "900000100016"
     direction: "Pankow"
