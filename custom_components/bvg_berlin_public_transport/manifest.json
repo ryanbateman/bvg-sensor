@@ -4,7 +4,7 @@
   "documentation": "https://github.com/ryanbateman/bvg-sensor",
   "issue_tracker": "https://github.com/ryanbateman/bvg-sensor/issues",
   "dependencies": [],
-  "config_flow": false,
+  "config_flow": true,
   "codeowners": ["@ryanbateman"],
   "version": "0.3.1",
   "iot_class": "cloud_polling",
