@@ -7,67 +7,67 @@
 # Version 0.3.3 switched to timezone aware objects, cache_size added to config parameters, optimized logging
 # Version 0.3.4 fixed encoding (issue #3), fixed typo in filepath
 
-from urllib.request import urlopen
-import json
-import pytz
-
-import os.path
-
 from datetime import datetime, timedelta
-from urllib.error import URLError
-
+import json
 import logging
-import voluptuous as vol
-from homeassistant.helpers.entity import Entity
-import homeassistant.helpers.config_validation as cv
+import os.path
+from urllib.error import URLError
+from urllib.request import urlopen
+
 from homeassistant.components.sensor import PLATFORM_SCHEMA
+import homeassistant.helpers.config_validation as cv
+from homeassistant.helpers.entity import Entity
+import pytz
+import voluptuous as vol
 
 _LOGGER = logging.getLogger(__name__)
 
-ATTR_STOP_ID = 'stop_id'
-ATTR_STOP_NAME = 'stop_name'
-ATTR_DUE_IN = 'due_in'
-ATTR_DELAY = 'delay'
-ATTR_REAL_TIME = 'departure_time'
-ATTR_DESTINATION = 'direction'
-ATTR_TRANS_TYPE = 'type'
-ATTR_TRIP_ID = 'trip'
-ATTR_LINE_NAME = 'line_name'
-ATTR_CONNECTION_STATE = 'connection_status'
+ATTR_STOP_ID = "stop_id"
+ATTR_STOP_NAME = "stop_name"
+ATTR_DUE_IN = "due_in"
+ATTR_DELAY = "delay"
+ATTR_REAL_TIME = "departure_time"
+ATTR_DESTINATION = "direction"
+ATTR_TRANS_TYPE = "type"
+ATTR_TRIP_ID = "trip"
+ATTR_LINE_NAME = "line_name"
+ATTR_CONNECTION_STATE = "connection_status"
 
-CONF_NAME = 'name'
-CONF_STOP_ID = 'stop_id'
-CONF_DESTINATION = 'direction'
-CONF_MIN_DUE_IN = 'walking_distance'
-CONF_CACHE_PATH = 'file_path'
-CONF_CACHE_SIZE = 'cache_size'
+CONF_NAME = "name"
+CONF_STOP_ID = "stop_id"
+CONF_DESTINATION = "direction"
+CONF_MIN_DUE_IN = "walking_distance"
+CONF_CACHE_PATH = "file_path"
+CONF_CACHE_SIZE = "cache_size"
 
-CONNECTION_STATE = 'connection_state'
-CON_STATE_ONLINE = 'online'
-CON_STATE_OFFLINE = 'offline'
+CONNECTION_STATE = "connection_state"
+CON_STATE_ONLINE = "online"
+CON_STATE_OFFLINE = "offline"
 
 ICONS = {
-    'suburban': 'mdi:subway-variant',
-    'subway': 'mdi:subway',
-    'tram': 'mdi:tram',
-    'bus': 'mdi:bus',
-    'regional': 'mdi:train',
-    'ferry': 'mdi:ferry',
-    'express': 'mdi:train',
-    'n/a': 'mdi:clock',
-    None: 'mdi:clock'
+    "suburban": "mdi:subway-variant",
+    "subway": "mdi:subway",
+    "tram": "mdi:tram",
+    "bus": "mdi:bus",
+    "regional": "mdi:train",
+    "ferry": "mdi:ferry",
+    "express": "mdi:train",
+    "n/a": "mdi:clock",
+    None: "mdi:clock",
 }
 
 SCAN_INTERVAL = timedelta(seconds=60)
 
-PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
-    vol.Required(CONF_STOP_ID): cv.string,
-    vol.Required(CONF_DESTINATION): vol.All(cv.ensure_list, [cv.string]),
-    vol.Optional(CONF_MIN_DUE_IN, default=10): cv.positive_int,
-    vol.Optional(CONF_CACHE_PATH, default='/'): cv.string,
-    vol.Optional(CONF_NAME, default='BVG'): cv.string,
-    vol.Optional(CONF_CACHE_SIZE, default=90): cv.positive_int,
-})
+PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
+    {
+        vol.Required(CONF_STOP_ID): cv.string,
+        vol.Required(CONF_DESTINATION): vol.All(cv.ensure_list, [cv.string]),
+        vol.Optional(CONF_MIN_DUE_IN, default=10): cv.positive_int,
+        vol.Optional(CONF_CACHE_PATH, default="/"): cv.string,
+        vol.Optional(CONF_NAME, default="BVG"): cv.string,
+        vol.Optional(CONF_CACHE_SIZE, default=90): cv.positive_int,
+    }
+)
 
 
 def setup_platform(hass, config, add_entities, discovery_info=None):
@@ -96,7 +96,9 @@ class Bvgsensor(Entity):
         self._stop_id = stop_id
         self.direction = direction
         self.min_due_in = min_due_in
-        self.url = "https://v5.bvg.transport.rest/stops/{}/departures?duration={}".format(self._stop_id, self._cache_size)
+        self.url = "https://v6.bvg.transport.rest/stops/{}/departures?duration={}".format(
+            self._stop_id, self._cache_size
+        )
         self.data = None
         self.singleConnection = None
         self._con_state = {CONNECTION_STATE: CON_STATE_ONLINE}
@@ -115,23 +117,25 @@ class Bvgsensor(Entity):
     def device_state_attributes(self):
         """Return the state attributes."""
         if self.singleConnection is not None:
-            return {ATTR_STOP_ID: self._stop_id,
-                    ATTR_STOP_NAME: self.singleConnection.get(ATTR_STOP_NAME),
-                    ATTR_DELAY: self.singleConnection.get(ATTR_DELAY),
-                    ATTR_REAL_TIME: self.singleConnection.get(ATTR_REAL_TIME),
-                    ATTR_DESTINATION: self.singleConnection.get(ATTR_DESTINATION),
-                    ATTR_TRANS_TYPE: self.singleConnection.get(ATTR_TRANS_TYPE),
-                    ATTR_LINE_NAME: self.singleConnection.get(ATTR_LINE_NAME)
-                    }
+            return {
+                ATTR_STOP_ID: self._stop_id,
+                ATTR_STOP_NAME: self.singleConnection.get(ATTR_STOP_NAME),
+                ATTR_DELAY: self.singleConnection.get(ATTR_DELAY),
+                ATTR_REAL_TIME: self.singleConnection.get(ATTR_REAL_TIME),
+                ATTR_DESTINATION: self.singleConnection.get(ATTR_DESTINATION),
+                ATTR_TRANS_TYPE: self.singleConnection.get(ATTR_TRANS_TYPE),
+                ATTR_LINE_NAME: self.singleConnection.get(ATTR_LINE_NAME),
+            }
         else:
-            return {ATTR_STOP_ID: 'n/a',
-                    ATTR_STOP_NAME: 'n/a',
-                    ATTR_DELAY: 'n/a',
-                    ATTR_REAL_TIME: 'n/a',
-                    ATTR_DESTINATION: 'n/a',
-                    ATTR_TRANS_TYPE: 'n/a',
-                    ATTR_LINE_NAME: 'n/a'
-                    }
+            return {
+                ATTR_STOP_ID: "n/a",
+                ATTR_STOP_NAME: "n/a",
+                ATTR_DELAY: "n/a",
+                ATTR_REAL_TIME: "n/a",
+                ATTR_DESTINATION: "n/a",
+                ATTR_TRANS_TYPE: "n/a",
+                ATTR_LINE_NAME: "n/a",
+            }
 
     @property
     def unit_of_measurement(self):
@@ -157,12 +161,12 @@ class Bvgsensor(Entity):
         else:
             self._state = None
 
-# only custom code beyond this line
+    # only custom code beyond this line
     @property
     def fetchDataFromURL(self):
         try:
             with urlopen(self.url) as response:
-                source = response.read().decode('utf8')
+                source = response.read().decode("utf8")
                 self.data = json.loads(source)
                 if self._con_state.get(CONNECTION_STATE) is CON_STATE_OFFLINE:
                     _LOGGER.warning("Connection to BVG API re-established")
@@ -182,22 +186,29 @@ class Bvgsensor(Entity):
             for pos in self.data:
                 # _LOGGER.warning("conf_direction: {} pos_direction {}".format(direction, pos['direction']))
                 # if pos['direction'] in direction:
-                if dest in pos['direction']:
-                    if pos['when'] is None:
+                if dest in pos["direction"]:
+                    if pos["when"] is None:
                         continue
-                    dep_time = datetime.strptime(pos['when'][:-6], "%Y-%m-%dT%H:%M:%S")
-                    dep_time = pytz.timezone('Europe/Berlin').localize(dep_time)
-                    delay = (pos['delay'] // 60) if pos['delay'] is not None else 0
+                    dep_time = datetime.strptime(pos["when"][:-6], "%Y-%m-%dT%H:%M:%S")
+                    dep_time = pytz.timezone("Europe/Berlin").localize(dep_time)
+                    delay = (pos["delay"] // 60) if pos["delay"] is not None else 0
                     departure_td = dep_time - date_now
                     # check if connection is not in the past
                     if departure_td > timedelta(days=0):
-                        departure_td = (departure_td.seconds // 60)
+                        departure_td = departure_td.seconds // 60
                         if departure_td >= min_due_in:
-                            timetable_l.append({ATTR_DESTINATION: pos['direction'], ATTR_REAL_TIME: dep_time,
-                                                ATTR_DUE_IN: departure_td, ATTR_DELAY: delay,
-                                                ATTR_TRIP_ID: pos['tripId'], ATTR_STOP_NAME: pos['stop']['name'],
-                                                ATTR_TRANS_TYPE: pos['line']['product'], ATTR_LINE_NAME: pos['line']['name']
-                                                })
+                            timetable_l.append(
+                                {
+                                    ATTR_DESTINATION: pos["direction"],
+                                    ATTR_REAL_TIME: dep_time,
+                                    ATTR_DUE_IN: departure_td,
+                                    ATTR_DELAY: delay,
+                                    ATTR_TRIP_ID: pos["tripId"],
+                                    ATTR_STOP_NAME: pos["stop"]["name"],
+                                    ATTR_TRANS_TYPE: pos["line"]["product"],
+                                    ATTR_LINE_NAME: pos["line"]["name"],
+                                }
+                            )
                             _LOGGER.debug("Connection found")
                         else:
                             _LOGGER.debug("Connection is due in under {} minutes".format(min_due_in))
@@ -208,8 +219,6 @@ class Bvgsensor(Entity):
             try:
                 _LOGGER.debug("Valid connection found")
                 _LOGGER.debug("Connection: {}".format(timetable_l))
-                return(timetable_l[int(nmbr)])
+                return timetable_l[int(nmbr)]
             except IndexError as e:
                 return None
-
-    
