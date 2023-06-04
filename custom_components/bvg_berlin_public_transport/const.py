@@ -3,10 +3,10 @@
 NAME = "BVG (Berlin Public Transport)"
 DOMAIN = "bvg_berlin_public_transport"
 DOMAIN_DATA = f"{DOMAIN}_data"
-VERSION = "0.0.0"
+VERSION = "0.3.1"
 
-ATTRIBUTION = "Data provided by http://jsonplaceholder.typicode.com/"
-ISSUE_URL = "https://github.com/ryanbateman/bvg-berlin-public-transport/issues"
+ATTRIBUTION = "Data provided by the v6 BVG http://transport.rest API"
+ISSUE_URL = "https://github.com/ryanbateman/bvg-sensor/issues"
 
 # Icons
 ICON = "mdi:format-quote-close"
@@ -20,15 +20,8 @@ SENSOR = "sensor"
 SWITCH = "switch"
 PLATFORMS = [BINARY_SENSOR, SENSOR, SWITCH]
 
-
-# Configuration and options
-CONF_ENABLED = "enabled"
-CONF_USERNAME = "username"
-CONF_PASSWORD = "password"
-
 # Defaults
 DEFAULT_NAME = DOMAIN
-
 
 STARTUP_MESSAGE = f"""
 -------------------------------------------------------------------
