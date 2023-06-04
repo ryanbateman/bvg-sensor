@@ -1,10 +1,10 @@
 {
   "domain": "bvg_berlin_public_transport",
   "name": "BVG (Berlin Public Transport)",
-  "documentation": "https://github.com/ryanbateman/bvg_hacs",
-  "issue_tracker": "https://github.com/ryanbateman/bvg_hacs/issues",
+  "documentation": "https://github.com/ryanbateman/bvg-sensor",
+  "issue_tracker": "https://github.com/ryanbateman/bvg-sensor/issues",
   "dependencies": [],
-  "config_flow": true,
+  "config_flow": false,
   "codeowners": ["@ryanbateman"],
   "version": "0.3.1",
   "iot_class": "cloud_polling",
